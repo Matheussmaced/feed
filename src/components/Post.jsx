@@ -1,7 +1,7 @@
-import styles from './post.module.css'
-
 import { Comment } from './Comment';
 import { Avatar } from './Avatar';
+
+import styles from './post.module.css'
  
 export const Post = ({photo, name}) => {
     return (
