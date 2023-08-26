@@ -13,7 +13,7 @@ import { Sidebar } from './components/Sidebar';
 
 const posts = [
   {
-    id: new Date().getTime(),
+    id: 1,
     author: {
       avatarUrl: 'https://github.com/MaykBrito.png',
       name: 'Mayk Brito',
@@ -29,7 +29,7 @@ const posts = [
     publishedAt: new Date('2023-08-24 20:07:30')
   },
   {
-    id: new Date().getTime(),
+    id: 2,
     author: {
       avatarUrl: 'https://github.com/Matheussmaced.png',
       name: 'Matheus Macêdo',
@@ -60,6 +60,7 @@ function App() {
           {posts.map(post => {
             return (
               <Post
+                key={post.id}
                 author ={post.author}
                 content ={post.content}
                 publishedAt ={post.publishedAt}

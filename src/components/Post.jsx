@@ -35,6 +35,14 @@ export const Post = ({author, publishedAt, content}) => {
         setNewCommentText(event.target.value);
     }
 
+    function deleteComment(commentToDelete){
+        // iremos criar uma nova lista de comentarios
+        const commentsWithoutDeletedOne = comments.filter(comment => {
+            return comment !== commentToDelete; // Quero que me retorne todos os comentarios menos oque quero deletar
+        })
+        setComments(commentsWithoutDeletedOne)
+    }
+
     return (
         <article className={styles.post}>
             <header>
@@ -52,9 +60,9 @@ export const Post = ({author, publishedAt, content}) => {
             <div className={styles.content}>
                 {content.map(line =>{                       // publications
                     if(line.type === 'paragraph'){
-                        return <p>{line.content}</p>
+                        return <p key={line.content}>{line.content}</p>
                     }else if(line.type === 'link'){
-                        return <p> <a href="#">{line.content}</a></p>
+                        return <p key={line.content}> <a href="#">{line.content}</a></p>
                     }
                 })}
             </div>
@@ -75,11 +83,13 @@ export const Post = ({author, publishedAt, content}) => {
 
             <div className={styles.commentList}>
                 {comments.map(comments=>{
-                    return(
-                            <Comment photo = 'https://github.com/Matheussmaced.png'
+                    return( 
+                        <Comment
+                            key={comments} photo = 'https://github.com/Matheussmaced.png'
                             nameUser = {author.name}
                             content = {comments}
-                            />
+                            onDeleteComment = {deleteComment}
+                        />
                     )
                 })}
             </div>
