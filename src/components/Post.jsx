@@ -5,8 +5,14 @@ import { Comment } from './Comment';
 import { Avatar } from './Avatar';
 
 import styles from './Post.module.css'
+import { useState } from 'react';
  
 export const Post = ({author, publishedAt, content}) => {
+    const [comments, setComments] = useState([
+        'Post muito bacana, hein!'
+    ])
+
+    const [newCommentText, setNewCommentText] = useState('');
 
     // date published
     const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
@@ -18,6 +24,16 @@ export const Post = ({author, publishedAt, content}) => {
         locale: ptBr,
         addSuffix: true,
     })
+
+    const handleCreateNewComment = () => {
+        event.preventDefault()
+        setComments([...comments, newCommentText]) // pego meu array e concateno
+        setNewCommentText('');
+    }
+
+    const handleNewCommentChange = () =>{
+        setNewCommentText(event.target.value);
+    }
 
     return (
         <article className={styles.post}>
@@ -43,21 +59,29 @@ export const Post = ({author, publishedAt, content}) => {
                 })}
             </div>
 
-            <form className={styles.commentForm}>
+            <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
                 <strong>Deixe seu feedback</strong>
-                <textarea 
+                <textarea
+                name = 'comment'
                 placeholder='Deixe um comentário'
+                value={newCommentText}
+                onChange={handleNewCommentChange}
                 />
 
                 <footer>
-                    <button type='submit'>Publicar</button>
+                    <button  type='submit'>Publicar</button>
                 </footer>
             </form>
 
             <div className={styles.commentList}>
-                <Comment photo={'https://github.com/MaykBrito.png'} nameUser='Mayk Brito'/>
-                <Comment photo={'https://github.com/vwvictor.png'} nameUser='Victor'/>
-                <Comment photo={'https://github.com/Matheussmaced.png'} nameUser='Matheus Macedo'/>
+                {comments.map(comments=>{
+                    return(
+                            <Comment photo = 'https://github.com/Matheussmaced.png'
+                            nameUser = {author.name}
+                            content = {comments}
+                            />
+                    )
+                })}
             </div>
         </article>
     )
