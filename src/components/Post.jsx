@@ -32,7 +32,13 @@ export const Post = ({author, publishedAt, content}) => {
     }
 
     const handleNewCommentChange = () =>{
+        event.target.setCustomValidity(''); // quando o usuario digitar algo, a mensagem reseta e então pode ser enviado
+
         setNewCommentText(event.target.value);
+    }
+
+    function handleNewCommentInvadid(){
+        event.target.setCustomValidity('Esse campo é obrigatório'); // quando o usuario não digitar nada
     }
 
     function deleteComment(commentToDelete){
@@ -42,6 +48,8 @@ export const Post = ({author, publishedAt, content}) => {
         })
         setComments(commentsWithoutDeletedOne)
     }
+
+    const isNewCommentInputEmpty = newCommentText.length === 0;
 
     return (
         <article className={styles.post}>
@@ -74,10 +82,15 @@ export const Post = ({author, publishedAt, content}) => {
                 placeholder='Deixe um comentário'
                 value={newCommentText}
                 onChange={handleNewCommentChange}
+                onInvalid={handleNewCommentInvadid}
+                required
                 />
 
                 <footer>
-                    <button  type='submit'>Publicar</button>
+                    <button
+                    type='submit' disabled={isNewCommentInputEmpty}>
+                        Publicar
+                    </button>
                 </footer>
             </form>
 
